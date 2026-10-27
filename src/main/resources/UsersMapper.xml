@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 必须等于接口全限定名 -->
+<mapper namespace="com.aaa.dao.UsersDao">
+
+    <!-- 必须等于接口方法名；resultType 用别名（typeAliases 里注册） -->
+    <select id="get_id" resultType="Users">
+        select * from users where id = #{id}
+    </select>
+
+    <select id="get_all" resultType="Users">
+        select * from users
+    </select>
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        insert into users(NAME, age) values(#{name}, #{age})
+    </insert>
+
+    <delete id="delete">
+        delete from users where id = #{id}
+    </delete>
+
+    <update id="update">
+        update users set name = #{name}, age = #{age} where id = #{id}
+    </update>
+</mapper>

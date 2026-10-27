@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- namespace 要和测试里 "aaa.UserDao.xxx" 的前半段完全一致 -->
+<mapper namespace="aaa.UserDao">
+
+    <!-- 查单条 -->
+    <select id="get_id" resultType="Users">
+        select * from users where id = #{id}
+    </select>
+
+    <!-- 查全部 -->
+    <select id="get_all" resultType="Users">
+        select * from users
+    </select>
+
+    <!-- 新增：useGeneratedKeys 让自增 id 回填到入参对象里 -->
+    <insert id="add" useGeneratedKeys="true" keyProperty="id">
+        insert into users(name, age) values(#{name}, #{age})
+    </insert>
+
+    <!-- 删除 -->
+    <delete id="delete">
+        delete from users where id = #{id}
+    </delete>
+
+    <!-- 修改 -->
+    <update id="update">
+        update users set name = #{name}, age = #{age} where id = #{id}
+    </update>
+
+</mapper>

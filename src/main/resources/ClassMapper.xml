@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.aaa.dao.ClazzDao">
+
+    <resultMap id="ClazzMapper" type="Clazz">
+        <id     column="c_id"       property="cid"/>
+        <result column="c_name"     property="cname"/>
+        <result column="teacher_id" property="teacherId"/>
+
+        <!-- association：一对一 / 多对一，装“一个”对象
+             property = Clazz 里的属性名
+             javaType = 这个属性的类型 -->
+        <association property="teacher" javaType="Teacher">
+            <id     column="t_id"   property="tid"/>
+            <result column="t_name" property="tname"/>
+        </association>
+
+        <!-- collection：一对多，装“一堆”对象
+         property = Clazz 里的属性名 students
+         ofType   = 集合里元素的类型 Student（不是 List！） -->
+        <collection property="students" ofType="Student">
+            <id     column="s_id"     property="sid"/>
+            <result column="s_name"   property="sname"/>
+            <result column="class_id" property="classId"/>
+        </collection>
+
+    </resultMap>
+
+    <select id="getById" resultMap="ClazzMapper">
+        select *
+        from class c
+                 inner join teacher t on c.teacher_id = t.t_id
+                 inner join student s on c.c_id = s.class_id
+        where c.c_id = #{id}
+        order by s.s_id
+    </select>
+
+</mapper>

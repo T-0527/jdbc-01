@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.aaa.dao.EmployeeDao">
+
+    <!-- autoMapping="true"：没有手写的列，列名和属性名一样就自动映射
+         （gender / age / dept / job / salary / phone / email 都靠它）
+         手写的三行负责名字不一样的列 -->
+    <resultMap id="EmployeeMapper" type="Employee" autoMapping="true">
+        <id     property="empId"    column="emp_id"/>
+        <result column="emp_name"  property="empName"/>
+        <result column="hire_date" property="hiredate"/>
+    </resultMap>
+
+    <select id="getById" resultMap="EmployeeMapper">
+        select * from employee where emp_id = #{id}
+    </select>
+
+
+
+    <select id="selectByCondition" resultMap="EmployeeMapper">
+        select * from employee
+        <where>
+            <if test="empName != null and empName != ''">
+                and emp_name = #{empName}
+            </if>
+            <if test="dept != null and dept != ''">
+                and dept = #{dept}
+            </if>
+        </where>
+    </select>
+<!--    choose + where-->
+    <select id="selectByCondition2" resultMap="EmployeeMapper">
+        select * from employee
+        <where>
+            <choose>
+                <when test="empName != null and empName != ''">
+                    and emp_name = #{empName}
+                </when>
+                <when test="dept != null and dept != ''">
+                    and dept = #{dept}
+                </when>
+                <otherwise>
+                    and 1 = 1
+                </otherwise>
+            </choose>
+        </where>
+    </select>
+
+<!--    trim + if-->
+    <select id="selectByCondition3" resultMap="EmployeeMapper">
+        select * from employee
+        <trim prefix="where" prefixOverrides="and|or">
+            <if test="empName != null and empName != ''">
+                and emp_name = #{empName}
+            </if>
+            <if test="dept != null and dept != ''">
+                or dept = #{dept}
+            </if>
+        </trim>
+    </select>
+
+<!--    set + if-->
+    <update id="update">
+        update employee
+        <set>
+            <if test="empName != null and empName != ''">
+                emp_name = #{empName},
+            </if>
+            <if test="gender != null and gender != ''">
+                gender = #{gender},
+            </if>
+            <if test="age != null">
+                age = #{age},
+            </if>
+            <if test="dept != null and dept != ''">
+                dept = #{dept},
+            </if>
+            <if test="job != null and job != ''">
+                job = #{job},
+            </if>
+            <if test="salary != null">
+                salary = #{salary},
+            </if>
+            <if test="hiredate != null">
+                hire_date = #{hiredate},
+            </if>
+            <if test="phone != null and phone != ''">
+                phone = #{phone},
+            </if>
+            <if test="email != null and email != ''">
+                email = #{email},
+            </if>
+        </set>
+        where emp_id = #{empId}
+    </update>
+
+<!--    foreach-->
+    <select id="selectByNames" resultMap="EmployeeMapper">
+        select * from employee
+        where emp_name in
+        <foreach collection="nameList" index="index" item="name"
+                 open="(" separator="," close=")">
+            #{name}
+        </foreach>
+    </select>
+
+<!--    模糊查询-->
+    <select id="selectByNameLike" resultMap="EmployeeMapper">
+        select * from employee
+        where emp_name like concat('%', #{keyword}, '%')
+    </select>
+
+</mapper>

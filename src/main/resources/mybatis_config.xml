@@ -40,5 +40,8 @@
     <mappers>
         <mapper resource="userMapper.xml"/>
         <mapper resource="UsersMapper.xml"/>
+        <mapper resource="OrdersMapper.xml"/>
+        <mapper resource="ClassMapper.xml"/>
+        <mapper resource="EmployeeMapper.xml"/>
     </mappers>
 </configuration>

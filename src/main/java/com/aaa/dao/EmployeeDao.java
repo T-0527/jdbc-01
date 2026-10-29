@@ -27,4 +27,23 @@ public interface EmployeeDao {
 
     /** 测试用：按主键查回来，验证 update 有没有改错字段 */
     Employee getById(Integer id);
+
+
+    /** 9 分页用：全表查（排序字段一定要有，否则每页顺序可能不一样） */
+    List<Employee> selectAll();
+
+
+//     10
+    List<Employee> selectByNameAndDept(@Param("name") String name,
+                                       @Param("dept") String dept);
+
+//     10
+    List<Employee> selectAllOrderBy(@Param("col") String col);
+
+    /** 11 方式一：不起名，XML 里只能用 param1 / param2 */
+    List<Employee> selectAge2(Integer minAge, Integer maxAge);
+
+    /** 11 方式二：@Param 起名 */
+    List<Employee> selectAge(@Param("minAge") Integer minAge,
+                             @Param("maxAge") Integer maxAge);
 }

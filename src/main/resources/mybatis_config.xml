@@ -16,6 +16,15 @@
     </typeAliases>
 
 
+    <!-- 分页插件 -->
+    <plugins>
+        <plugin interceptor="com.github.pagehelper.PageInterceptor">
+            <property name="helperDialect" value="mysql"/>
+            <property name="reasonable" value="true"/>
+        </plugin>
+    </plugins>
+
+
     <!-- 数据源：连哪个库、用什么账号 -->
     <environments default="development">
         <environment id="development">

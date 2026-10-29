@@ -1,11 +1,13 @@
 package com.aaa.entity;
 
 import lombok.Data;
-
+import java.io.Serializable;
 import java.util.Date;
 
 @Data
-public class Employee {
+public class Employee implements Serializable {
+
+    private static final long serialVersionUID = 1L;
     private Integer empId;
     private String empName;
     private String gender;
